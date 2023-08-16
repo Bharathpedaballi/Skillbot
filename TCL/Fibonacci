@@ -1,0 +1,16 @@
+#!/usr/bin/tclsh
+proc fib {num} {
+    set n1 0
+    puts -nonewline "$n1 "
+    set n2 1
+    puts -nonewline "$n2 "
+    for {set i 2} {$i<$num} {incr i} {
+    set result [expr {$n1 + $n2}] 
+    puts -nonewline "$result "
+    set n1 $n2 
+    set n2 $result
+    }
+}
+puts "Enter the number of terms in fib: "
+gets stdin num 
+fib $num
