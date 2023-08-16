@@ -1,0 +1,55 @@
+#!/usr/bin/tclsh
+proc read_matrix {rows cols} {
+    set matrix {}
+    for {set i 0} {$i < $rows} {incr i} {
+        puts "Enter values for row$i :"
+        set row [split [gets stdin]]
+        lappend matrix $row
+    }
+    return $matrix
+}
+
+proc matrix_mul {matrix1 matrix2} {
+    set result {}
+    for {set i 0} {$i < [llength $matrix1]} {incr i} {
+        set row {}
+        for {set j 0} {$j < [llength [lindex $matrix2 0]]} {incr j} {
+            set sum 0
+            for {set k 0} {$k < [llength [lindex $matrix1 0]]} {incr k} {
+                set val1 [lindex [lindex $matrix1 $i] $k]
+                set val2 [lindex [lindex $matrix2 $k] $j]
+                set sum [expr {$sum + ($val1 * $val2)}]
+            }
+            lappend row $sum
+        }
+        lappend result $row
+    }
+    return $result
+}
+
+puts "Enter the row value of matrix 1: "
+gets stdin row1
+puts "Enter the column value of matrix 1: "
+gets stdin col1
+
+puts "Enter the row value of matrix 2: "
+gets stdin row2
+puts "Enter the column value of matrix 2: "
+gets stdin col2
+
+if {$row1 != $col2} {
+    puts "Matrix cannot be multiplied"
+} else {
+    puts "Enter matrix A: "
+    set MatrixA [read_matrix $row1 $col1]
+    
+    puts "Enter matrix B:"
+    set MatrixB [read_matrix $row2 $col2]
+    
+    set Result [matrix_mul $MatrixA $MatrixB]
+    
+    puts "Result: "
+    foreach row $Result {
+        puts [join $row "\t"]
+    }
+}
